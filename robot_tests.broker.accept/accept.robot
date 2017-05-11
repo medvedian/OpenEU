@@ -55,11 +55,16 @@ Login
 
 Підготувати дані для оголошення тендера
   [Arguments]  ${username}  ${tender_data}  ${items}
-    run keyword if  '${username}' == 'accOwner'      ${tender_data}=       adapt_data         ${tender_data}
+  run keyword if  '${username}' == 'accept_Owner'      Підготувати тендер дату   ${tender_data}
 #    log to console  *
 #    log to console  ${tender_data}
 #    log to console  *
-    [return]    ${tender_data}
+  [return]    ${tender_data}
+
+Підготувати тендер дату
+  [Arguments]  ${tender_data}
+  ${tender_data}=       adapt_data         ${tender_data}
+  set global variable  ${tender_data}
 
 Створити тендер
   [Arguments]  @{ARGUMENTS}
@@ -188,6 +193,8 @@ Login
     input text  ${Поле "Узагальнена назва закупівлі"}  ${title}
     sleep  2
     input text  id=title-en                            ${title_en}
+    focus  id=tender-value-vat
+    sleep  2
     run keyword if       '${vat}'     click element      id=tender-value-vat
     sleep  1
     input text  id=description     ${description}
